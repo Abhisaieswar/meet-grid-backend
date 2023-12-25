@@ -30,6 +30,14 @@ io.on("connection", (socket) => {
     socket.leave(roomId);
     socket.broadcast.emit("peerRemoved", peerId);
   });
+
+  socket.on("userAudioStatus", (data) => {
+    socket.broadcast.emit("userAudioStatus", data);
+  });
+
+  socket.on("userVideoStatus", (data) => {
+    socket.broadcast.emit("userVideoStatus", data);
+  });
 });
 
 server.listen(4000, () => {
