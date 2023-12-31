@@ -1,5 +1,7 @@
 require("dotenv").config();
-// const {}
+
+const DbConnectionManager = require("./db/DbConnectionManager");
+
 const express = require("express");
 const cors = require("cors");
 const { createServer } = require("node:http");
@@ -24,6 +26,12 @@ const io = new Server(server, {
     credentials: true,
   },
 });
+
+(async () => {
+  const dbManager = DbConnectionManager.getInstance();
+  const entityManager = await dbManager.getManager();
+  console.log(entityManager);
+})();
 
 io.on("connection", (socket) => {
   socket.on("addPeer", (data) => {

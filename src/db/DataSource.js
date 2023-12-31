@@ -1,12 +1,12 @@
-import { SnakeNamingStrategy } from "typeorm-naming-strategies";
+const { SnakeNamingStrategy } = require("typeorm-naming-strategies");
 
 const { DataSource } = require("typeorm");
 
-export const getDataSource = () => {
+const getDataSource = () => {
   const dataSource = new DataSource({
     type: "postgres",
     host: process.env.HOST,
-    port: process.env.PORT,
+    port: process.env.DATABASEPORT,
     username: process.env.USERNAME,
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
@@ -20,3 +20,5 @@ export const getDataSource = () => {
 
   return dataSource;
 };
+
+module.exports = getDataSource;

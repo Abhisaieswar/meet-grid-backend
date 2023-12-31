@@ -1,17 +1,15 @@
-import "reflect-metadata";
+const getDataSource = require("./DataSource");
 
-import { getDataSource } from "./datasource";
-
-export class DbConnectionManager {
+class DbConnectionManager {
   static dbInstance;
   constructor() {
-    DbConnectionManager._dbConnection = getDataSource();
+    this._dbConnection = getDataSource();
   }
 
   //singleton pattern to protect from creating more than 1 db connection
-  static getConnectionManger() {
+  static getInstance() {
     if (!DbConnectionManager.dbInstance) {
-      DbConnectionManager.dbInstance = getDataSource();
+      DbConnectionManager.dbInstance = new DbConnectionManager();
     }
     return DbConnectionManager.dbInstance;
   }
@@ -27,7 +25,6 @@ export class DbConnectionManager {
     return await this.dbConnect()
       .then((connection) => connection)
       .catch(async (err) => {
-        console.log(err);
         return await this._dbConnection.initialize();
       });
   }
@@ -38,3 +35,5 @@ export class DbConnectionManager {
     );
   }
 }
+
+module.exports = DbConnectionManager;
