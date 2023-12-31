@@ -1,11 +1,12 @@
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-const DbConnectionManager = require("./db/DbConnectionManager");
+// const DbConnectionManager = require("./db/DbConnectionManager");
 
-const express = require("express");
-const cors = require("cors");
-const { createServer } = require("node:http");
-const { Server } = require("socket.io");
+import express from "express";
+import cors from "cors";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.use("/api", authRoutes);
 
 const port = process.env.PORT || 4001;
 
+console.log({ port });
+
 const server = createServer(app);
 
 const io = new Server(server, {
@@ -27,11 +30,11 @@ const io = new Server(server, {
   },
 });
 
-(async () => {
-  const dbManager = DbConnectionManager.getInstance();
-  const entityManager = await dbManager.getManager();
-  console.log(entityManager);
-})();
+// (async () => {
+//   const dbManager = DbConnectionManager.getInstance();
+//   const entityManager = await dbManager.getManager();
+//   console.log(entityManager);
+// })();
 
 io.on("connection", (socket) => {
   socket.on("addPeer", (data) => {
