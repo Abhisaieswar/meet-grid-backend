@@ -1,13 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-
-@Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id;
-
-  @Column()
-  name;
-
-  @Column()
-  password;
-}
+module.exports = {
+  name: "User",
+  id: {
+    primary: true,
+    type: "int",
+    generated: true,
+  },
+  name: {
+    type: "varchar",
+    maxLength: 255,
+  },
+  password: {
+    type: "varchar",
+    maxLength: 255,
+  },
+};
