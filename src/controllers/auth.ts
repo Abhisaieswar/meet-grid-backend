@@ -24,7 +24,7 @@ export const authenticate = async (req: any, res: any) => {
 
 export const signIn = async (req: any, res: any) => {
   const { userName, password } = req.body;
-  // const hashedPwd = await bcrypt.hash(password, 10);
+  const hashedPwd = await hash(password, 10);
   //store hashed pwd in db and verify pwd
   const jwtToken = await jwt.sign({ userName }, "secret_key");
   res.json({ jwtToken });
