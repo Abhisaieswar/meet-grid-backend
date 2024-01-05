@@ -28,6 +28,16 @@ export const signUp = async (req: any, res: any) => {
 
     const { userName, password } = req;
 
+    const user = await entityManager.findOne(User, {
+      where: {
+        name: userName,
+      },
+    });
+
+    if (user) {
+      return res.status(409).json("Email already exists");
+    }
+
     await entityManager.save(User, { name: userName, password });
     res.status(200).send("Sign up successfull!");
   } catch (err) {
