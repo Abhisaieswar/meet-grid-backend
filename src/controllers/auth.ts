@@ -1,4 +1,4 @@
-import { compare } from "bcryptjs";
+import { compare, hash } from "bcryptjs";
 import jwt from "jsonwebtoken";
 import DbConnectionManager from "../db/DbConnectionManager";
 import { User } from "../db/entities/User";
@@ -26,20 +26,22 @@ export const signUp = async (req: any, res: any) => {
   try {
     const entityManager = await dbManager.getManager();
 
-    const { userName, password } = req;
+    const { email, password } = req.body;
 
     const user = await entityManager.findOne(User, {
-      where: {
-        name: userName,
-      },
+      where: { email },
     });
 
     if (user) {
       return res.status(409).json("Email already exists");
     }
 
-    await entityManager.save(User, { name: userName, password });
-    res.status(200).send("Sign up successfull!");
+    const hashedPassword = await hash(password, 10);
+    await entityManager.save(User, {
+      email,
+      password: hashedPassword,
+    });
+    res.status(200).send("Sign up successfully!");
   } catch (err) {
     console.log(err);
     res.status(500).json({ success: false, message: err });
@@ -50,12 +52,10 @@ export const signIn = async (req: any, res: any) => {
   try {
     const entityManager = await dbManager.getManager();
 
-    const { userName, password } = req.body;
+    const { email, password } = req.body;
 
     const user = await entityManager.findOne(User, {
-      where: {
-        name: userName,
-      },
+      where: { email },
     });
 
     if (!user) {
@@ -72,7 +72,7 @@ export const signIn = async (req: any, res: any) => {
     }
 
     //store hashed pwd in db and verify pwd
-    const jwtToken = await jwt.sign({ userName }, "secret_key");
+    const jwtToken = await jwt.sign({ email }, "secret_key");
     res.status(200).json({ jwtToken });
   } catch (err) {
     console.log(err);
