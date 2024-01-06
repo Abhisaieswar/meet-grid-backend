@@ -9,7 +9,7 @@ export const getDataSource = (): DataSource => {
     username: process.env.USERNAME,
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
-    entities: [`${__dirname}/entities/*.js`],
+    entities: [`${__dirname}/entities/*.ts`],
     namingStrategy: new SnakeNamingStrategy(),
   });
   if (!dataSource) {

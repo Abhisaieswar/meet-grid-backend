@@ -30,12 +30,6 @@ const io = new Server(server, {
   },
 });
 
-// (async () => {
-//   const dbManager = DbConnectionManager.getInstance();
-//   const entityManager = await dbManager.getManager();
-//   console.log(entityManager);
-// })();
-
 io.on("connection", (socket) => {
   socket.on("addPeer", (data) => {
     const { roomId, peerId } = data;
