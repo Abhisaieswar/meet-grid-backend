@@ -22,6 +22,12 @@ export class Event {
   @Column()
   endTime: Date;
 
+  @Column()
+  startDate: Date;
+
+  @Column({ nullable: true })
+  endDate: Date;
+
   @Column("boolean", { default: false })
   isRecurring: boolean;
 
@@ -37,3 +43,7 @@ export class Event {
   @CreateDateColumn()
   createdAt: Date;
 }
+
+// SELECT * FROM events
+// WHERE user_id = 'user123'
+// AND (start_date <= '2024-01-13' AND (end_date >= '2024-01-13' OR end_date IS NULL));
