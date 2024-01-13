@@ -9,11 +9,11 @@ export const authenticate = async (req: any, res: any) => {
   try {
     const jwtToken = req.headers["authorization"]?.split(" ")[1];
 
-    if (!jwtToken) res.status(401).send("Invalid Access Token");
+    if (!jwtToken) res.status(401).send("Invalid access token");
 
     jwt.verify(jwtToken, "secret_key", async (error: any, payload: any) => {
       error
-        ? res.status(401).send("Invalid Access Token")
+        ? res.status(401).send("Invalid access token")
         : res.status(200).send("Success");
     });
   } catch (err) {
